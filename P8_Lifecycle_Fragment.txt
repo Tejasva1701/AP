@@ -1,0 +1,172 @@
+//Create an application to display various activity life cycle and fragment life cycle methods.
+
+//activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+
+//LifecycleFragment class
+package com.example.lifecycle;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+public class LifecycleFragment extends Fragment {
+
+    private static final String TAG = LifecycleFragment.class.getSimpleName();
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_lifecycle, container, false);
+        return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+}
+
+
+//fragment_lifecycle.xml in the res/layout folder
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+</RelativeLayout>
+
+
+//MainActivity.java
+package com.example.lifecycle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private TextView textViewActivity;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    textViewActivity = findViewById(R.id.textViewActivity);
+
+    Log.d(TAG, "onCreate");
+    textViewActivity.append("onCreate\n");
+
+    LifecycleFragment fragment = new LifecycleFragment();
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.add(R.id.fragmentContainer, fragment);
+    fragmentTransaction.commit();
+}
+
+@Override
+protected void onStart() {
+    super.onStart();
+    Log.d(TAG, "onStart");
+    textViewActivity.append("onStart\n");
+}
+
+@Override
+protected void onResume() {
+    super.onResume();
+    Log.d(TAG, "onResume");
+    textViewActivity.append("onResume\n");
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    Log.d(TAG, "onPause");
+    textViewActivity.append("onPause\n");
+}
+
+@Override
+protected void onStop() {
+    super.onStop();
+    Log.d(TAG, "onStop");
+    textViewActivity.append("onStop\n");
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG, "onDestroy");
+    textViewActivity.append("onDestroy\n");
+}
+}

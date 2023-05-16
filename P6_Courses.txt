@@ -1,0 +1,81 @@
+//Create a list of all courses in your college and on selecting a particular course teacher-in-charge of that course should appear at the bottom of the screen.
+
+//activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+   <ListView
+       android:id="@+id/listViewCourses"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_above="@+id/textViewTeacher"
+       android:layout_marginBottom="16dp"
+       android:dividerHeight="1dp"
+       android:divider="@color/black" />
+
+   <TextView
+       android:id="@+id/textViewTeacher"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:layout_alignParentBottom="true"
+       android:background="@color/gray"
+       android:gravity="center"
+       android:textSize="18sp" />
+
+</RelativeLayout>
+
+
+//list_item_course.xml in the 'res/layout' folder
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@android:id/text1"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:textSize="18sp"
+   android:padding="16dp"
+   android:textColor="@color/black" />
+
+
+//MainActivity.java
+package com.example.courselist;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+   private ListView listViewCourses;
+   private TextView textViewTeacher;
+
+   private String[] courses = {"Course 1", "Course 2", "Course 3", "Course 4", "Course 5"};
+   private String[] teachers = {"Teacher 1", "Teacher 2", "Teacher 3", "Teacher 4", "Teacher 5"};
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+
+       listViewCourses = findViewById(R.id.listViewCourses);
+       textViewTeacher = findViewById(R.id.textViewTeacher);
+
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, courses);
+       listViewCourses.setAdapter(adapter);
+
+       listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               textViewTeacher.setText("Teacher-in-charge: " + teachers[position]);
+           }
+       });
+   }
+}
+

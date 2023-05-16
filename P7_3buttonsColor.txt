@@ -1,0 +1,87 @@
+//Create an application with three option buttons, on selecting a button colour of the screen will change.
+
+//activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RadioButton
+        android:id="@+id/radioButtonRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Red"
+        android:checked="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+    <RadioButton
+        android:id="@+id/radioButtonGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Green"
+        android:layout_below="@+id/radioButtonRed"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+    <RadioButton
+        android:id="@+id/radioButtonBlue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blue"
+        android:layout_below="@+id/radioButtonGreen"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+</RelativeLayout>
+
+
+//MainActivity.java
+package com.example.colorchanger;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+public class MainActivity extends AppCompatActivity {
+
+    private RadioGroup radioGroupColors;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        radioGroupColors = findViewById(R.id.radioGroupColors);
+        radioGroupColors.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int color = Color.RED; // Default color
+
+                switch (checkedId) {
+                    case R.id.radioButtonRed:
+                        color = Color.RED;
+                        break;
+                    case R.id.radioButtonGreen:
+                        color = Color.GREEN;
+                        break;
+                    case R.id.radioButtonBlue:
+                        color = Color.BLUE;
+                        break;
+                }
+
+                changeBackgroundColor(color);
+            }
+        });
+    }
+
+    private void changeBackgroundColor(int color) {
+        View rootView = getWindow().getDecorView().getRootView();
+        rootView.setBackgroundColor(color);
+    }
+}

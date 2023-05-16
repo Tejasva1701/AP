@@ -1,0 +1,90 @@
+//Create an application with three buttons (increment, decrement and reset) and a textView aligned vertically. On clicking, increment/decrement button, the value of the textview should increment/decrement by 1, while selecting reset button, the value of textview should become zero.
+
+//activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/buttonIncrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Increment" />
+
+    <Button
+        android:id="@+id/buttonDecrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decrement" />
+
+    <Button
+        android:id="@+id/buttonReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset" />
+
+</LinearLayout>
+
+
+//MainActivity.java
+package com.example.counter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView textViewCounter;
+    private int counter = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        textViewCounter = findViewById(R.id.textViewCounter);
+        Button buttonIncrement = findViewById(R.id.buttonIncrement);
+        Button buttonDecrement = findViewById(R.id.buttonDecrement);
+        Button buttonReset = findViewById(R.id.buttonReset);
+
+        buttonIncrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter++;
+                textViewCounter.setText(String.valueOf(counter));
+            }
+        });
+
+        buttonDecrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter--;
+                textViewCounter.setText(String.valueOf(counter));
+            }
+        });
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter = 0;
+                textViewCounter.setText(String.valueOf(counter));
+            }
+        });
+    }
+}
+
